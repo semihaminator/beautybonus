@@ -23,6 +23,7 @@ export async function POST(request) {
   const startMonth = String(body.startMonth || "");
   const photoUrl = String(body.photoUrl || "");
   const lang = isLocale(body.lang) ? body.lang : "en";
+  const photoAccess = body.photoAccess === "private" ? "private" : "public";
 
   const errors = {};
   if (!APP_ID.test(appId)) errors.appId = "Enter your in-app ID (letters and numbers only).";
@@ -41,7 +42,7 @@ export async function POST(request) {
   }
 
   try {
-    const rec = await createApplication({ appId, email, phone, startMonth, photoUrl, lang });
+    const rec = await createApplication({ appId, email, phone, startMonth, photoUrl, photoAccess, lang });
     return Response.json({ ok: true, reference: rec.id.slice(0, 8).toUpperCase() });
   } catch (err) {
     console.error(err);

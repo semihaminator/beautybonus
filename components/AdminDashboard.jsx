@@ -159,8 +159,8 @@ export default function AdminDashboard({ apps, statuses, error }) {
                     return (
                       <tr key={a.id}>
                         <td data-label="Photo">
-                          <button className="thumb" onClick={() => setLightbox(a.photoUrl)} aria-label={`View photo for ${a.appId}`}>
-                            <img src={a.photoUrl} alt="" loading="lazy" />
+                          <button className="thumb" onClick={() => setLightbox(`/api/admin/photo/${a.id}`)} aria-label={`View photo for ${a.appId}`}>
+                            <img src={`/api/admin/photo/${a.id}`} alt="" loading="lazy" />
                           </button>
                         </td>
                         <td data-label="In-app ID" className="mono">{a.appId}</td>

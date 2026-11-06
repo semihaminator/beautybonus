@@ -9,7 +9,7 @@ const cell = (v) => {
   return `"${safe.replace(/"/g, '""')}"`;
 };
 
-export async function GET() {
+export async function GET(request) {
   const denied = await requireAdmin();
   if (denied) return denied;
   const [apps, statuses] = await Promise.all([listApplications(), getStatuses()]);
@@ -23,7 +23,7 @@ export async function GET() {
       a.phone,
       ({ en: "EN", ru: "RU", uk: "UA" })[a.lang] || "EN",
       STATUS_LABELS[statuses[a.appId] || "pending"],
-      a.photoUrl,
+      `${new URL(request.url).origin}/api/admin/photo/${a.id}`,
     ]);
   }
   const csv = "﻿" + rows.map((r) => r.map(cell).join(",")).join("\r\n");

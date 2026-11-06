@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { upload } from "@vercel/blob/client";
+import { uploadPresigned } from "@vercel/blob/client";
 import { UploadIcon } from "./Icons";
 import { fmt } from "@/lib/i18n";
 
@@ -65,17 +65,25 @@ export default function ApplyForm({ months, t, locale }) {
       setState("uploading");
       const ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
       const safeId = values.appId.trim().replace(/[^A-Za-z0-9_-]/g, "");
-      const blob = await upload(`applications/${safeId}.${ext}`, file, {
-        access: "public",
-        handleUploadUrl: "/api/upload",
-        contentType: file.type,
-      });
+      const pathname = `applications/${safeId || "id"}-${crypto.randomUUID()}.${ext || "jpg"}`;
+      const send = (access) =>
+        uploadPresigned(pathname, file, { access, handleUploadUrl: "/api/upload", contentType: file.type });
+      // The Blob store can be public or private; try public first, then private.
+      let blob;
+      let photoAccess = "public";
+      try {
+        blob = await send("public");
+      } catch (firstErr) {
+        console.warn("Public upload failed, trying private store", firstErr);
+        photoAccess = "private";
+        blob = await send("private");
+      }
 
       setState("saving");
       const res = await fetch("/api/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, photoUrl: blob.url, lang: locale }),
+        body: JSON.stringify({ ...values, photoUrl: blob.url, photoAccess, lang: locale }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
