@@ -1,4 +1,4 @@
-# Salsa Beauty Bonus — application site
+# Salsa Beauty Bonus — application site 
 
 Next.js site with three parts:
 
