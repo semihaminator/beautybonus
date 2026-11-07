@@ -88,7 +88,9 @@ export default function ApplyForm({ months, t, locale }) {
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         // Server returns field names; show our own translated text for them.
-        const fieldErrs = Object.fromEntries(Object.keys(data.errors || {}).map((k) => [k, k]));
+        const fieldErrs = Object.fromEntries(
+          Object.keys(data.errors || {}).map((k) => [k, k === "startMonth" && values.startMonth ? "startMonthStale" : k])
+        );
         setErrors(fieldErrs);
         setState("idle");
         setMessage(Object.keys(fieldErrs).length ? "check" : "generic");
@@ -167,7 +169,7 @@ export default function ApplyForm({ months, t, locale }) {
             <option key={m.value} value={m.value}>{m.label}</option>
           ))}
         </select>
-        <p className="hint">{t.startHint}</p>
+        {months[0] && <p className="hint">{fmt(t.startHint, { date: months[0].label })}</p>}
         {errors.startMonth && <p className="error">{errText(errors.startMonth)}</p>}
       </div>
 
@@ -189,7 +191,14 @@ export default function ApplyForm({ months, t, locale }) {
 
       <label className="check">
         <input type="checkbox" checked={agree} onChange={(e) => { setAgree(e.target.checked); setErrors((er) => ({ ...er, agree: undefined })); }} />
-        <span>{t.confirm}</span>
+        <span>
+          {t.confirm.split("{rules}").map((part, i) => (
+            <span key={i}>
+              {i > 0 && <a href="/rules" target="_blank" rel="noopener">{t.confirmRules}</a>}
+              {part}
+            </span>
+          ))}
+        </span>
       </label>
       {errors.agree && <p className="error">{errText(errors.agree)}</p>}
 

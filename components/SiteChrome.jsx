@@ -9,13 +9,12 @@ export function Header({ locale, t, showLang = true }) {
       <Link href="/" className="brand" aria-label="Salsa Beauty Bonus">
         <img src="/img/salsa-wordmark.webp" alt="salsa" width="96" height="27" />
       </Link>
-      <div className="header-right">
-        <nav className="nav">
-          <Link href="/#apply"><span className="long">{t.nav.apply}</span><span className="short">{t.nav.applyShort}</span></Link>
-          <Link href="/results">{t.nav.results}</Link>
-        </nav>
-        {showLang && <LangSwitcher locale={locale} label={t.nav.language} />}
-      </div>
+      <nav className="nav">
+        <Link href="/#apply">{t.nav.apply}</Link>
+        <Link href="/rules">{t.nav.rules}</Link>
+        <Link href="/results">{t.nav.results}</Link>
+      </nav>
+      {showLang && <LangSwitcher locale={locale} label={t.nav.language} />}
     </header>
   );
 }

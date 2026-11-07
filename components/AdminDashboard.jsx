@@ -35,6 +35,13 @@ export default function AdminDashboard({ apps, statuses, error }) {
 
   const months = useMemo(() => [...new Set(apps.map((a) => a.startMonth))].sort(), [apps]);
 
+  // How many applications each in-app ID has (rules: an ID may only take part once).
+  const idCounts = useMemo(() => {
+    const c = {};
+    apps.forEach((a) => (c[a.appId] = (c[a.appId] || 0) + 1));
+    return c;
+  }, [apps]);
+
   const filtered = useMemo(() => {
     const s = q.trim().toLowerCase();
     return apps.filter(
@@ -163,7 +170,12 @@ export default function AdminDashboard({ apps, statuses, error }) {
                             <img src={`/api/admin/photo/${a.id}`} alt="" loading="lazy" />
                           </button>
                         </td>
-                        <td data-label="In-app ID" className="mono">{a.appId}</td>
+                        <td data-label="In-app ID" className="mono">
+                          {a.appId}
+                          {idCounts[a.appId] > 1 && (
+                            <span className="dup" title="This in-app ID has applied more than once">×{idCounts[a.appId]}</span>
+                          )}
+                        </td>
                         <td data-label="Start">{monthLabel(a.startMonth)}</td>
                         <td data-label="Email"><a href={`mailto:${a.email}`}>{a.email}</a></td>
                         <td data-label="Phone"><a href={`tel:${a.phone.replace(/[^+\d]/g, "")}`}>{a.phone}</a></td>

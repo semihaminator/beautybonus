@@ -27,7 +27,10 @@ export default async function Home() {
 
       <div className="disclaimer" role="note">
         <span className="disclaimer-day">13</span>
-        <p dangerouslySetInnerHTML={{ __html: t.disclaimer }} />
+        <div className="disclaimer-text">
+          <p dangerouslySetInnerHTML={{ __html: t.disclaimer }} />
+          <a href="/rules" className="disclaimer-link">{t.rulesLink} →</a>
+        </div>
       </div>
 
       <section id="apply" className="apply-section">

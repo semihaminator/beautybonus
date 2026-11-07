@@ -54,8 +54,11 @@ The application and results pages are in **English, Russian and Ukrainian**. The
 - Each application records the language it was submitted in. You can see it in the admin "Lang" column and in the CSV.
 - All texts live in `lib/i18n.js`. Edit any wording there. The Russian and Ukrainian texts use the informal "ты/ти".
 
-## Start-month rules
-The bonus starts on the 13th of every month. The form offers the next 6 start dates; once the 13th of the current month has arrived, that month is no longer offered. Change this in `lib/months.js` (`BONUS_DAY`, and `count` in `app/page.jsx`).
+## Start-date rules (application window 1st–5th)
+Each bonus period runs from the 13th to the 13th. Applications sent on the **1st–5th** can start on the 13th of the same month; applications sent on the **6th or later** can start on the 13th of the next month at the earliest. The form only offers allowed dates, and the server enforces the same rule. Dates are counted in Istanbul/Moscow time (UTC+3). Settings live at the top of `lib/months.js` (`APPLY_FROM_DAY`, `APPLY_TO_DAY`, `BONUS_DAY`, `APP_TIMEZONE`).
+
+## Rules page
+`/rules` shows the Beauty Bonus rules in EN/RU/UA. All wording is in `lib/rules.js`.
 
 ## Notes
 - Photos are stored in Vercel Blob with unguessable random file names; anyone with the exact link can view a photo, but links are only shown in the admin panel.
