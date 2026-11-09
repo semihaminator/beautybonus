@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Banner, Footer, Header } from "@/components/SiteChrome";
+import { getLiveContests } from "@/lib/contests";
 import { getLocale } from "@/lib/locale";
 import { getSettings } from "@/lib/settings";
 import { getSite } from "@/lib/site";
@@ -17,7 +18,9 @@ export async function generateMetadata() {
 export const viewport = { themeColor: "#0b0307" };
 
 export default async function RootLayout({ children }) {
-  const [locale, settings] = await Promise.all([getLocale(), getSettings()]);
+  const [locale, settings, contests] = await Promise.all([getLocale(), getSettings(), getLiveContests()]);
+  // agency contest first, then streamer, as asked
+  const hot = [...contests].sort((a, b) => (a.audience === "agencies" ? -1 : 0) - (b.audience === "agencies" ? -1 : 0));
   const s = getSite(locale);
   return (
     <html lang={locale}>
@@ -31,7 +34,7 @@ export default async function RootLayout({ children }) {
       </head>
       <body>
         <div className="bg-pattern" aria-hidden="true" />
-        <Header locale={locale} s={s} settings={settings} />
+        <Header locale={locale} s={s} settings={settings} contests={hot} />
         <Banner settings={settings} locale={locale} />
         <main>{children}</main>
         <Footer s={s} settings={settings} />

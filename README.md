@@ -15,6 +15,7 @@ Old links `/rules` and `/results` redirect to their new addresses.
 ## Admin panel
 - **Beauty Bonus** — applications, statuses, public result lists, CSV (as before).
 - **Agency applications** — every form sent from `/agency`: contacts, address, streamer IDs (a ×2 badge marks a streamer ID that appears in more than one application), status (New / Contacted / Approved / Rejected), internal notes, CSV export.
+- **Contests** — links to contest pages hosted elsewhere. Each gets a card on the home page (and in the streamer or agency guide) and a short link `salsa.team/c/<name>` that forwards to the contest and counts clicks. Set “show until” and it disappears by itself after that date.
 - **Site settings** — button links (start streaming, support, agency panel, Cafe app, Telegram, Instagram), an announcement banner in each language, and switches to show or hide each section. Changes are live immediately.
 
 ## Connect your domain

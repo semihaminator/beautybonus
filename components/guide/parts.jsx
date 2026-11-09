@@ -119,7 +119,7 @@ export function Bullets({ items }) {
   return <ul className="g-bullets">{items.map((x, i) => <li key={i}><Rich text={x} /></li>)}</ul>;
 }
 
-export function GuideHero({ eyebrow, title, lead, badgeTop, badgeSub, img, chips }) {
+export function GuideHero({ eyebrow, title, lead, badgeTop, badgeSub, img, imgW = 400, imgH = 400, chips }) {
   return (
     <section className="g-hero" id="top">
       <div>
@@ -132,8 +132,8 @@ export function GuideHero({ eyebrow, title, lead, badgeTop, badgeSub, img, chips
           ))}
         </div>
       </div>
-      <div className="g-hero-art">
-        <img src={img} alt="" width="400" height="400" />
+      <div className="g-hero-art float">
+        <img src={img} alt="" width={imgW} height={imgH} />
         {badgeTop && <div className="g-badge"><strong>{badgeTop}</strong><span>{badgeSub}</span></div>}
       </div>
     </section>

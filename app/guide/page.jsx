@@ -1,7 +1,10 @@
 import CallCalculator from "@/components/guide/CallCalculator";
 import GuideTabs from "@/components/guide/GuideTabs";
 import { Bullets, Callout, Feat, GIcon, GuideHero, Ico, LinkButton, Rich, SecHead, Steps } from "@/components/guide/parts";
+import ContestCards from "@/components/ContestCards";
 import { PreviewNote } from "@/components/PreviewNote";
+import { getLiveContests } from "@/lib/contests";
+import { getSite } from "@/lib/site";
 import { STREAMER_GUIDE } from "@/lib/content/streamerGuide";
 import { getLocale } from "@/lib/locale";
 import { requireSection } from "@/lib/sections";
@@ -20,6 +23,8 @@ export async function generateMetadata() {
 export default async function StreamerGuidePage() {
   const { settings, preview } = await requireSection("guide");
   const locale = await getLocale();
+  const liveContests = await getLiveContests("streamers");
+  const site = getSite(locale);
   const t = STREAMER_GUIDE[locale] || STREAMER_GUIDE.en;
   const { s1, s2, s3, s4, s5, s6, s7 } = t;
   const L = settings.links;
@@ -31,7 +36,8 @@ export default async function StreamerGuidePage() {
       {preview && <PreviewNote />}
       <GuideTabs items={tabs} />
       <div className="g-wrap">
-        <GuideHero eyebrow={t.eyebrow} title={t.heroTitle} lead={t.heroLead} badgeTop={t.badgeTop} badgeSub={t.badgeSub} img="/img/guide-hero.webp" chips={tabs} />
+        <GuideHero eyebrow={t.eyebrow} title={t.heroTitle} lead={t.heroLead} badgeTop={t.badgeTop} badgeSub={t.badgeSub} img="/img/guide-3d.webp" imgW={560} imgH={841} chips={tabs} />
+        <ContestCards contests={liveContests} locale={locale} s={site} title={site.contests.guideTitle} compact />
 
         <section className="g-sec" id="about">
           <SecHead n={1} kicker={s1.kicker} title={s1.title} lead={s1.lead} />

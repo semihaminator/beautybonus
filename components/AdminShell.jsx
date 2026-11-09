@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 const TABS = [
   ["beauty", "Beauty Bonus"],
   ["agency", "Agency applications"],
+  ["contests", "Contests"],
   ["settings", "Site settings"],
 ];
 

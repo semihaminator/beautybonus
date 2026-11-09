@@ -1,7 +1,10 @@
 import AgencyForm from "@/components/AgencyForm";
 import GuideTabs from "@/components/guide/GuideTabs";
 import { Bullets, Callout, Feat, GIcon, GuideHero, Ico, LinkButton, Rich, SecHead, Steps } from "@/components/guide/parts";
+import ContestCards from "@/components/ContestCards";
 import { PreviewNote } from "@/components/PreviewNote";
+import { getLiveContests } from "@/lib/contests";
+import { getSite } from "@/lib/site";
 import { AGENCY_GUIDE, AGENCY_TABLES } from "@/lib/content/agencyGuide";
 import { getLocale } from "@/lib/locale";
 import { requireSection } from "@/lib/sections";
@@ -19,6 +22,8 @@ export async function generateMetadata() {
 export default async function AgencyGuidePage() {
   const { settings, preview } = await requireSection("agency");
   const locale = await getLocale();
+  const liveContests = await getLiveContests("agencies");
+  const site = getSite(locale);
   const t = AGENCY_GUIDE[locale] || AGENCY_GUIDE.en;
   const { s1, s2, s3, s4, s5, s6, form } = t;
   const L = settings.links;
@@ -31,7 +36,8 @@ export default async function AgencyGuidePage() {
       {preview && <PreviewNote />}
       <GuideTabs items={tabs} />
       <div className="g-wrap">
-        <GuideHero eyebrow={t.eyebrow} title={t.heroTitle} lead={t.heroLead} badgeTop={t.badgeTop} badgeSub={t.badgeSub} img="/img/agency-hero.webp" chips={tabs} />
+        <GuideHero eyebrow={t.eyebrow} title={t.heroTitle} lead={t.heroLead} badgeTop={t.badgeTop} badgeSub={t.badgeSub} img="/img/agency-3d.webp" imgW={760} imgH={444} chips={tabs} />
+        <ContestCards contests={liveContests} locale={locale} s={site} title={site.contests.guideTitle} compact />
 
         <section className="g-sec" id="about">
           <SecHead n={1} kicker={s1.kicker} title={s1.title} lead={s1.lead} />

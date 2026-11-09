@@ -2,6 +2,8 @@ import AdminDashboard from "@/components/AdminDashboard";
 import AdminLogin from "@/components/AdminLogin";
 import AdminShell from "@/components/AdminShell";
 import AgencyAdmin from "@/components/AgencyAdmin";
+import ContestsAdmin from "@/components/ContestsAdmin";
+import { getClicks, getContests } from "@/lib/contests";
 import SettingsAdmin from "@/components/SettingsAdmin";
 import { listAgencyApps } from "@/lib/agency";
 import { isAdmin } from "@/lib/auth";
@@ -24,6 +26,9 @@ export default async function AdminPage() {
     error = err.message;
   }
   const settings = await getSettings();
+  const contests = await getContests();
+  const clicks = await getClicks(contests.map((c) => c.slug));
+  const siteUrl = (process.env.SITE_URL || "https://salsa.team").replace(/\/$/, "");
   const newAgency = agencyApps.filter((a) => a.status === "new").length;
   const pendingBB = apps.filter((a) => !statuses[a.appId]).length;
 
@@ -32,6 +37,7 @@ export default async function AdminPage() {
       {{
         beauty: <AdminDashboard apps={apps} statuses={statuses} error={error} />,
         agency: <AgencyAdmin apps={agencyApps} />,
+        contests: <ContestsAdmin initial={contests} clicks={clicks} siteUrl={siteUrl} />,
         settings: <SettingsAdmin initial={settings} linkFields={LINK_FIELDS} sectionFields={SECTION_FIELDS} />,
       }}
     </AdminShell>

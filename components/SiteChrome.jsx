@@ -3,7 +3,7 @@ import { CameraIcon, PlaneIcon, SupportIcon } from "./Icons";
 import LangSwitcher from "./LangSwitcher";
 import MainNav from "./MainNav";
 
-export function Header({ locale, s, settings }) {
+export function Header({ locale, s, settings, contests = [] }) {
   const items = [
     ["guide", "/guide", s.nav.guide],
     ["agency", "/agency", s.nav.agency],
@@ -15,6 +15,17 @@ export function Header({ locale, s, settings }) {
         <img src="/img/salsa-wordmark.webp" alt="salsa" width="96" height="27" />
       </Link>
       <MainNav items={items.map(([key, href, label]) => ({ key, href, label }))} />
+      {contests.length > 0 && (
+        <div className="hot-links">
+          {contests.map((c) => (
+            <a key={c.slug} href={`/c/${c.slug}`} target="_blank" rel="noopener" className="hot-link">
+              <span className="hot-tag">HOT!</span>
+              <span className="hot-long">{s.hot[c.audience] || s.hot.all}</span>
+              <span className="hot-short">{s.hotShort[c.audience] || s.hotShort.all}</span>
+            </a>
+          ))}
+        </div>
+      )}
       <LangSwitcher locale={locale} label={s.nav.language} />
     </header>
   );

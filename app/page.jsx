@@ -1,4 +1,6 @@
 import Link from "next/link";
+import ContestCards from "@/components/ContestCards";
+import { getLiveContests } from "@/lib/contests";
 import { getLocale } from "@/lib/locale";
 import { getSettings } from "@/lib/settings";
 import { getSite } from "@/lib/site";
@@ -12,8 +14,9 @@ const CARDS = [
 ];
 
 export default async function Home() {
-  const [locale, settings] = await Promise.all([getLocale(), getSettings()]);
-  const h = getSite(locale).hub;
+  const [locale, settings, contests] = await Promise.all([getLocale(), getSettings(), getLiveContests()]);
+  const site = getSite(locale);
+  const h = site.hub;
   const cards = CARDS.filter((c) => settings.sections[c.key]);
   return (
     <>
@@ -35,6 +38,12 @@ export default async function Home() {
           <img src="/img/hero-s-3d.webp" alt="" width="760" height="845" />
         </div>
       </section>
+
+      {contests.length > 0 && (
+        <div className="hub-contests">
+          <ContestCards contests={contests} locale={locale} s={site} title={site.contests.title} />
+        </div>
+      )}
 
       <section className="hub-cards" aria-label={h.eyebrow}>
         {cards.map((c) => {
