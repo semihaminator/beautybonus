@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 const CARDS = [
   { key: "guide", href: "/guide", img: "/img/guide-card.webp", pos: "center" },
   { key: "agency", href: "/agency", img: "/img/agency-card.webp", pos: "center" },
-  { key: "beautyBonus", href: "/beauty-bonus", img: "/img/hero.webp", pos: "center 60%" },
+  { key: "beautyBonus", href: "/beauty-bonus", img: "/img/bb-card.webp", pos: "center" },
 ];
 
 export default async function Home() {
@@ -31,7 +31,9 @@ export default async function Home() {
             )}
           </div>
         </div>
-        <img src="/img/logo-square.webp" alt="" className="hub-logo" width="420" height="420" />
+        <div className="hub-3d" aria-hidden="true">
+          <img src="/img/hero-s-3d.webp" alt="" width="760" height="845" />
+        </div>
       </section>
 
       <section className="hub-cards" aria-label={h.eyebrow}>
