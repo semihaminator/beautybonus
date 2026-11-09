@@ -26,3 +26,14 @@ export function UploadIcon(props) {
     </svg>
   );
 }
+
+export function SupportIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+      <path d="M4 13v-1a8 8 0 0 1 16 0v1" />
+      <rect x="3" y="13" width="4" height="6" rx="1.5" />
+      <rect x="17" y="13" width="4" height="6" rx="1.5" />
+      <path d="M19 19c0 1.5-1.8 2.5-5 2.5" />
+    </svg>
+  );
+}

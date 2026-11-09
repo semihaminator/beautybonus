@@ -1,14 +1,30 @@
-# Salsa Beauty Bonus — application site
+# Salsa — creators site
 
-Next.js site with three parts:
+One site with:
 
-| Page | What it does |
+| Page | What it is |
 |---|---|
-| `/` | Hero, the "bonus starts on the 13th" notice, the application form (in-app ID, picture, start month, email, phone) and Telegram/Instagram links |
-| `/results` | Public lists of **Accepted**, **Conditionally accepted** and **Rejected** in-app IDs, with a search box |
-| `/admin` | Password-protected panel: all submissions with photos, filters, status changes, delete, CSV export, and bulk entry of IDs into the public result lists |
+| `/` | Home: links to every section, "Start streaming" and support buttons |
+| `/guide` | Streamer guide (EN/RU/UA) |
+| `/agency` | Agency guide + agency application form (EN/RU/UA) |
+| `/beauty-bonus` | Beauty Bonus application, `/beauty-bonus/rules`, `/beauty-bonus/results` |
+| `/admin` | One admin panel: Beauty Bonus, Agency applications, Site settings |
 
-Data is stored in **Upstash Redis** (applications + statuses) and photos in **Vercel Blob**. Both are free-tier friendly and are added from inside Vercel.
+Old links `/rules` and `/results` redirect to their new addresses.
+
+## Admin panel
+- **Beauty Bonus** — applications, statuses, public result lists, CSV (as before).
+- **Agency applications** — every form sent from `/agency`: contacts, address, streamer IDs (a ×2 badge marks a streamer ID that appears in more than one application), status (New / Contacted / Approved / Rejected), internal notes, CSV export.
+- **Site settings** — button links (start streaming, support, agency panel, Cafe app, Telegram, Instagram), an announcement banner in each language, and switches to show or hide each section. Changes are live immediately.
+
+## Connect your domain
+Vercel → your project → **Settings → Domains → Add** → type `salsa.team` (and add `www.salsa.team` too, set to redirect to `salsa.team`). Vercel shows the DNS records to add (usually an `A` record for the bare domain and a `CNAME` for `www`). Add them where you bought the domain; it goes live once DNS updates (minutes to a few hours). The `.vercel.app` address keeps working too.
+
+## Where the texts live
+- Streamer guide: `lib/content/streamerGuide.js`
+- Agency guide + form texts: `lib/content/agencyGuide.js` (commission and bonus tables at the top)
+- Home page, menu, footer: `lib/site.js`
+- Beauty Bonus: `lib/i18n.js`, rules in `lib/rules.js`
 
 ---
 

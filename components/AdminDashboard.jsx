@@ -99,22 +99,11 @@ export default function AdminDashboard({ apps, statuses, error }) {
     }
   }
 
-  async function logout() {
-    await fetch("/api/admin/logout", { method: "POST" });
-    router.refresh();
-  }
-
   return (
-    <section className="admin">
-      <div className="admin-top">
-        <div>
-          <h1 className="page-title left">Admin panel</h1>
-          <p className="muted">Beauty Bonus applications and public result lists</p>
-        </div>
-        <div className="admin-actions">
-          <a className="btn ghost small" href="/api/admin/export">Export CSV</a>
-          <button className="btn ghost small" onClick={logout}>Sign out</button>
-        </div>
+    <div className="admin-section">
+      <div className="admin-sub-top">
+        <p className="muted">Beauty Bonus applications and public result lists</p>
+        <a className="btn ghost small" href="/api/admin/export">Export CSV</a>
       </div>
 
       {error && <p className="form-error">{error}</p>}
@@ -247,6 +236,6 @@ export default function AdminDashboard({ apps, statuses, error }) {
       )}
 
       {toast && <div className="toast">{toast}</div>}
-    </section>
+    </div>
   );
 }

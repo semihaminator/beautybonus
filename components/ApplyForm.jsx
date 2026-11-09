@@ -115,7 +115,7 @@ export default function ApplyForm({ months, t, locale }) {
         <p>{month ? fmt(t.success.bodyMonth, { id, month: month.label }) : fmt(t.success.body, { id })}</p>
         {reference && <p className="muted">{fmt(t.success.ref, { ref: reference })}</p>}
         <p className="muted">{t.success.check}</p>
-        <a href="/results" className="btn">{t.success.go}</a>
+        <a href="/beauty-bonus/results" className="btn">{t.success.go}</a>
       </div>
     );
   }
@@ -194,7 +194,7 @@ export default function ApplyForm({ months, t, locale }) {
         <span>
           {t.confirm.split("{rules}").map((part, i) => (
             <span key={i}>
-              {i > 0 && <a href="/rules" target="_blank" rel="noopener">{t.confirmRules}</a>}
+              {i > 0 && <a href="/beauty-bonus/rules" target="_blank" rel="noopener">{t.confirmRules}</a>}
               {part}
             </span>
           ))}
