@@ -802,3 +802,9 @@ input:focus, select:focus, textarea:focus { border-color: var(--pink); box-shado
 .hub-3d img { height: auto; }
 .g-hero-art.float:has(img[src*="agency-3d"]) { width: min(520px, 100%); }
 .g-hero-art.float:has(img[src*="agency-3d"]) .g-badge { position: static; margin: 18px auto 0; width: fit-content; }
+
+.hub-fact { gap: 8px; align-content: start; }
+.hub-fact .g-ico { margin-bottom: 4px; }
+.hub-fact .g-i { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.hub-fact strong { font-size: 20px; line-height: 1.2; }
+.g-hero-art.float .g-badge { position: static; margin: 18px auto 0; width: fit-content; }

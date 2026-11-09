@@ -36,7 +36,7 @@ export default async function StreamerGuidePage() {
       {preview && <PreviewNote />}
       <GuideTabs items={tabs} />
       <div className="g-wrap">
-        <GuideHero eyebrow={t.eyebrow} title={t.heroTitle} lead={t.heroLead} badgeTop={t.badgeTop} badgeSub={t.badgeSub} img="/img/guide-3d.webp" imgW={560} imgH={841} chips={tabs} />
+        <GuideHero eyebrow={t.eyebrow} title={t.heroTitle} lead={t.heroLead} badgeTop={t.badgeTop} badgeSub={t.badgeSub} img="/img/guide-3d.webp" imgW={560} imgH={832} chips={tabs} />
         <ContestCards contests={liveContests} locale={locale} s={site} title={site.contests.guideTitle} compact />
 
         <section className="g-sec" id="about">

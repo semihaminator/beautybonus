@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ContestCards from "@/components/ContestCards";
+import { GIcon } from "@/components/guide/parts";
 import { getLiveContests } from "@/lib/contests";
 import { getLocale } from "@/lib/locale";
 import { getSettings } from "@/lib/settings";
@@ -63,8 +64,9 @@ export default async function Home() {
       </section>
 
       <section className="hub-facts" aria-label={h.factsTitle}>
-        {h.facts.map(([big, small]) => (
+        {h.facts.map(([icon, big, small]) => (
           <div key={big} className="hub-fact">
+            <span className="g-ico"><GIcon name={icon} /></span>
             <strong>{big}</strong>
             <span>{small}</span>
           </div>

@@ -82,7 +82,7 @@ export default async function AgencyGuidePage() {
               <p>{s2.send}</p>
               <div className="g-actions">
                 <LinkButton href="#apply" icon="form">{s2.sendForm}</LinkButton>
-                <LinkButton href={L.support} ghost icon="support">{s2.sendWhatsapp}</LinkButton>
+                <LinkButton href={L.agencyManager} ghost icon="support">{s2.sendWhatsapp}</LinkButton>
               </div>
             </div>
           </div>
@@ -211,7 +211,7 @@ export default async function AgencyGuidePage() {
         <section className="g-sec" id="apply">
           <SecHead n={7} kicker={form.kicker} title={form.title} lead={form.lead} />
           <div className="apply-card wide-card">
-            <AgencyForm t={form} locale={locale} whatsapp={L.support} />
+            <AgencyForm t={form} locale={locale} whatsapp={L.agencyManager} />
           </div>
         </section>
       </div>

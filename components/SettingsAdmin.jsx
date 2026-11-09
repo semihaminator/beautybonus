@@ -64,7 +64,7 @@ export default function SettingsAdmin({ initial, linkFields, sectionFields }) {
           {linkFields.map(([k, label]) => (
             <label key={k} className="set-field" htmlFor={`set-${k}`}>
               <span>{label}</span>
-              <input id={`set-${k}`} type="url" inputMode="url" value={s.links[k] || ""} onChange={(e) => setLink(k, e.target.value)} placeholder="https://…" />
+              <input id={`set-${k}`} type="text" inputMode="url" value={s.links[k] || ""} onChange={(e) => setLink(k, e.target.value)} placeholder={k === "support" ? "support@… or https://…" : "https://…"} />
             </label>
           ))}
         </div>
