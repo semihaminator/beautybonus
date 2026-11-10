@@ -29,6 +29,7 @@ export default async function BeautyBonusPage() {
           <p className="eyebrow">{t.hero.eyebrow}</p>
           <h1 className="visually-hidden">Salsa Beauty Bonus</h1>
           <p className="lead">{t.hero.lead}</p>
+          <div className="bb-prize"><strong>{t.hero.prize}</strong><span>{t.hero.prizeSub}</span></div>
           <div className="hero-actions">
             <a href="#apply" className="btn">{t.hero.apply}</a>
             <a href="/beauty-bonus/results" className="btn ghost">{t.hero.check}</a>

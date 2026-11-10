@@ -26,6 +26,16 @@ export default async function RulesPage() {
       <p className="muted center">{r.intro}</p>
 
       <section className="rules-block">
+        <div className="bb-prize-block">
+          <div>
+            <h2 className="rules-h">{r.prizeTitle}</h2>
+            <p>{r.prizeText}</p>
+          </div>
+          <strong>{r.prize}</strong>
+        </div>
+      </section>
+
+      <section className="rules-block">
         <h2 className="rules-h">{r.cycleTitle}</h2>
         <ol className="cycle">
           {r.cycle.map((c) => (

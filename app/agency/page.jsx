@@ -68,6 +68,15 @@ export default async function AgencyGuidePage() {
             ))}
           </div>
           <p className="g-foot">{s2.reqFoot}</p>
+          <div className="g-beauty promo">
+            <div>
+              <h3>{s2.promoTitle}</h3>
+              <p>{s2.promoText}</p>
+              <span className="g-threshold"><GIcon name="gift" size={18} />{s2.promoCalc}</span>
+              <p className="g-small g-muted"><Rich text={s2.promoNote} /></p>
+            </div>
+            <div className="g-prize"><strong>$950</strong><span>{s2.promoCalc}</span></div>
+          </div>
           <Callout icon="panel" text={s2.reqAfter} />
 
           <div className="g-grid g2 top" style={{ marginTop: 34 }}>
@@ -210,7 +219,8 @@ export default async function AgencyGuidePage() {
 
         <section className="g-sec" id="apply">
           <SecHead n={7} kicker={form.kicker} title={form.title} lead={form.lead} />
-          <div className="apply-card wide-card">
+          <Callout icon="gift" title={s2.promoTitle} text={s2.promoText} />
+          <div className="apply-card wide-card" style={{ marginTop: 18 }}>
             <AgencyForm t={form} locale={locale} whatsapp={L.agencyManager} />
           </div>
         </section>

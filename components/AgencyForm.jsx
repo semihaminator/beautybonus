@@ -6,12 +6,12 @@ import { fmt } from "@/lib/i18n";
 const ID_RE = /^[A-Za-z0-9._-]{2,40}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const PHONE_RE = /^\+?[0-9 ()-]{7,22}$/;
-const MIN = 5;
+const START_FIELDS = 3; // streamer IDs are optional
 const MAX = 30;
 
 export default function AgencyForm({ t, locale, whatsapp }) {
   const [v, setV] = useState({ name: "", agentId: "", email: "", phone: "", country: "", city: "", address: "", comment: "", website: "" });
-  const [ids, setIds] = useState(Array(MIN).fill(""));
+  const [ids, setIds] = useState(Array(START_FIELDS).fill(""));
   const [agree, setAgree] = useState(false);
   const [errors, setErrors] = useState({});
   const [state, setState] = useState("idle");
@@ -42,7 +42,7 @@ export default function AgencyForm({ t, locale, whatsapp }) {
     if (v.city.trim().length < 2) e.city = 1;
     if (v.address.trim().length < 3) e.address = 1;
     const unique = new Set(filled.map((s) => s.toLowerCase()));
-    if (unique.size < MIN || unique.size !== filled.length || !filled.every((s) => ID_RE.test(s))) e.streamers = 1;
+    if (unique.size !== filled.length || !filled.every((s) => ID_RE.test(s))) e.streamers = 1;
     if (!agree) e.agree = 1;
     return e;
   }
@@ -120,7 +120,7 @@ export default function AgencyForm({ t, locale, whatsapp }) {
       {field("address", t.address, { autoComplete: "street-address" })}
 
       <fieldset className="field ids-field">
-        <legend className="label">{t.streamers}</legend>
+        <legend className="label">{t.streamers}<span className="opt"> · {t.optional}</span></legend>
         <p className="hint">{t.streamersHint}</p>
         <div className="ids-grid">
           {ids.map((val, i) => (
@@ -132,9 +132,9 @@ export default function AgencyForm({ t, locale, whatsapp }) {
                 placeholder={fmt(t.streamerPh, { n: i + 1 })}
                 aria-label={fmt(t.streamerPh, { n: i + 1 })}
                 autoComplete="off"
-                aria-invalid={!!errors.streamers && (!val.trim() || !!isDup(i))}
+                aria-invalid={!!errors.streamers && !!val.trim() && (!!isDup(i) || !/^[A-Za-z0-9._-]{2,40}$/.test(val.trim()))}
               />
-              {i >= MIN && (
+              {ids.length > 1 && (
                 <button type="button" className="id-remove" onClick={() => setIds(ids.filter((_, j) => j !== i))} aria-label={t.remove}>×</button>
               )}
               {isDup(i) && <p className="error">{t.errors.streamerDup}</p>}

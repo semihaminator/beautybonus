@@ -808,3 +808,13 @@ input:focus, select:focus, textarea:focus { border-color: var(--pink); box-shado
 .hub-fact .g-i { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .hub-fact strong { font-size: 20px; line-height: 1.2; }
 .g-hero-art.float .g-badge { position: static; margin: 18px auto 0; width: fit-content; }
+
+/* Beauty Bonus prize highlight */
+.bb-prize { display: inline-flex; align-items: center; gap: 14px; margin: 0 auto 22px; padding: 12px 20px; border-radius: 18px; background: linear-gradient(135deg, rgba(255, 46, 147, 0.28), rgba(26, 8, 18, 0.85)); border: 1px solid var(--line-strong); box-shadow: 0 0 30px rgba(255, 46, 147, 0.25); text-align: left; }
+.bb-prize strong { font: 800 clamp(26px, 4vw, 34px)/1 var(--font); white-space: nowrap; text-shadow: 0 0 20px rgba(255, 46, 147, 0.6); }
+.bb-prize span { color: #f6dbe8; font-size: 15px; max-width: 18em; }
+.bb-prize-block { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; padding: 26px 28px; border-radius: 22px; background: linear-gradient(135deg, rgba(255, 46, 147, 0.3), rgba(26, 8, 18, 0.9) 70%); border: 1px solid var(--line-strong); box-shadow: 0 0 40px rgba(255, 46, 147, 0.2); }
+.bb-prize-block p { margin: 0; color: #f3d7e5; }
+.bb-prize-block .rules-h { margin-bottom: 8px; }
+.bb-prize-block > strong { font: 800 clamp(32px, 5vw, 46px)/1 var(--font); white-space: nowrap; padding: 16px 22px; border-radius: 18px; background: rgba(11, 3, 7, 0.55); border: 1px solid var(--line-strong); text-shadow: 0 0 22px rgba(255, 46, 147, 0.6); }
+@media (max-width: 560px) { .bb-prize-block { grid-template-columns: 1fr; } .bb-prize-block > strong { justify-self: start; } }
