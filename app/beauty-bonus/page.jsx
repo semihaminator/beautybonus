@@ -1,5 +1,5 @@
 import ApplyForm from "@/components/ApplyForm";
-import { BBNav, Socials } from "@/components/SiteChrome";
+import { BBNav } from "@/components/SiteChrome";
 import { PreviewNote } from "@/components/PreviewNote";
 import { requireSection } from "@/lib/sections";
 import { getSite } from "@/lib/site";
@@ -14,7 +14,7 @@ export async function generateMetadata() {
 }
 
 export default async function BeautyBonusPage() {
-  const { settings, preview } = await requireSection("beautyBonus");
+  const { preview } = await requireSection("beautyBonus");
   const locale = await getLocale();
   const site = getSite(locale);
   const t = getDict(locale);
@@ -51,12 +51,6 @@ export default async function BeautyBonusPage() {
           <h2 className="card-title">{t.form.title}</h2>
           <ApplyForm months={months} t={t.form} locale={locale} />
         </div>
-      </section>
-
-      <section className="community">
-        <h2 className="section-title">{t.community.title}</h2>
-        <p className="muted">{t.community.text}</p>
-        <Socials settings={settings} />
       </section>
     </>
   );
