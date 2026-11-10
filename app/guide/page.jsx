@@ -45,7 +45,7 @@ export default async function StreamerGuidePage() {
           <h3 className="g-sub">{s1.whyTitle}</h3>
           <div className="g-grid g3">{s1.why.map(([ic, ti, p]) => <Feat key={ti} icon={ic} title={ti} text={p} />)}</div>
           <Callout icon="heart" title={s1.joinTitle} text={s1.join}>
-            <div className="g-actions"><LinkButton href={L.startStreaming} icon="rocket">{s1.joinCta}</LinkButton></div>
+            <div className="g-actions"><LinkButton href={L.startStreaming} icon="rocket" track="start-streaming">{s1.joinCta}</LinkButton></div>
           </Callout>
         </section>
 
@@ -196,8 +196,8 @@ export default async function StreamerGuidePage() {
           <h2>{t.endTitle}</h2>
           <p className="g-muted"><Rich text={t.endText} /></p>
           <div className="g-actions center">
-            <LinkButton href={L.startStreaming} icon="rocket">{t.endStart}</LinkButton>
-            <LinkButton href={L.support} ghost icon="support">{t.endSupport}</LinkButton>
+            <LinkButton href={L.startStreaming} icon="rocket" track="start-streaming">{t.endStart}</LinkButton>
+            <LinkButton href={L.support} ghost icon="support" track="support">{t.endSupport}</LinkButton>
           </div>
         </section>
       </div>

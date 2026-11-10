@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const TABS = [
+  ["stats", "Stats"],
   ["beauty", "Beauty Bonus"],
   ["agency", "Agency applications"],
   ["contests", "Contests"],
@@ -12,7 +13,7 @@ const TABS = [
 
 export default function AdminShell({ children, badges = {} }) {
   const router = useRouter();
-  const [tab, setTab] = useState("beauty");
+  const [tab, setTab] = useState("stats");
 
   // Remember the open area in the address (#agency) so a refresh keeps it.
   useEffect(() => {

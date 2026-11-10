@@ -1,5 +1,7 @@
 import "./globals.css";
 import { Banner, Footer, Header } from "@/components/SiteChrome";
+import Tracker from "@/components/Tracker";
+import VercelAnalytics from "@/components/VercelAnalytics";
 import { getLiveContests } from "@/lib/contests";
 import { getLocale } from "@/lib/locale";
 import { getSettings } from "@/lib/settings";
@@ -38,6 +40,8 @@ export default async function RootLayout({ children }) {
         <Banner settings={settings} locale={locale} />
         <main>{children}</main>
         <Footer s={s} settings={settings} />
+        <Tracker />
+        <VercelAnalytics />
       </body>
     </html>
   );

@@ -13,6 +13,7 @@ One site with:
 Old links `/rules` and `/results` redirect to their new addresses.
 
 ## Admin panel
+- **Stats** — visitors per day, pages opened and buttons clicked (Start streaming, support, contests, HOT! buttons, socials, home cards), plus how many applications came in. Choose Today / 7 days / 30 days / All time. Stored in the site's own database; no cookies with personal data.
 - **Beauty Bonus** — applications, statuses, public result lists, CSV (as before).
 - **Agency applications** — every form sent from `/agency`: contacts, address, streamer IDs (a ×2 badge marks a streamer ID that appears in more than one application), status (New / Contacted / Approved / Rejected), internal notes, CSV export.
 - **Contests** — links to contest pages hosted elsewhere. Each gets a card on the home page (and in the streamer or agency guide) and a short link `salsa.team/c/<name>` that forwards to the contest and counts clicks. Set “show until” and it disappears by itself after that date.

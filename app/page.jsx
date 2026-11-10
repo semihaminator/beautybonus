@@ -28,10 +28,10 @@ export default async function Home() {
           <p className="lead">{h.lead}</p>
           <div className="hero-actions left">
             {settings.links.startStreaming && (
-              <a href={settings.links.startStreaming} className="btn" target="_blank" rel="noopener noreferrer">{h.start}</a>
+              <a href={settings.links.startStreaming} data-track="start-streaming" className="btn" target="_blank" rel="noopener noreferrer">{h.start}</a>
             )}
             {settings.links.support && (
-              <a href={settings.links.support} className="btn ghost" target="_blank" rel="noopener noreferrer">{h.support}</a>
+              <a href={settings.links.support} data-track="support" className="btn ghost" target="_blank" rel="noopener noreferrer">{h.support}</a>
             )}
           </div>
         </div>
@@ -50,7 +50,7 @@ export default async function Home() {
         {cards.map((c) => {
           const t = h.cards[c.key];
           return (
-            <Link key={c.key} href={c.href} className="hub-card">
+            <Link key={c.key} href={c.href} className="hub-card" data-track={`card:${c.key}`}>
               <span className="hub-card-img" style={{ backgroundImage: `url(${c.img})`, backgroundPosition: c.pos }} aria-hidden="true" />
               <span className="hub-card-body">
                 <span className="hub-tag">{t.tag}</span>

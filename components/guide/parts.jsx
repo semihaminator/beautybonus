@@ -140,11 +140,11 @@ export function GuideHero({ eyebrow, title, lead, badgeTop, badgeSub, img, imgW 
   );
 }
 
-export function LinkButton({ href, children, ghost = false, icon }) {
+export function LinkButton({ href, children, ghost = false, icon, track }) {
   if (!href) return null;
   const external = /^https?:/.test(href);
   return (
-    <a href={href} className={ghost ? "btn ghost" : "btn"} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+    <a href={href} data-track={track} className={ghost ? "btn ghost" : "btn"} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
       {icon && <GIcon name={icon} size={18} />}
       {children}
     </a>

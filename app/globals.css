@@ -818,3 +818,19 @@ input:focus, select:focus, textarea:focus { border-color: var(--pink); box-shado
 .bb-prize-block .rules-h { margin-bottom: 8px; }
 .bb-prize-block > strong { font: 800 clamp(32px, 5vw, 46px)/1 var(--font); white-space: nowrap; padding: 16px 22px; border-radius: 18px; background: rgba(11, 3, 7, 0.55); border: 1px solid var(--line-strong); text-shadow: 0 0 22px rgba(255, 46, 147, 0.6); }
 @media (max-width: 560px) { .bb-prize-block { grid-template-columns: 1fr; } .bb-prize-block > strong { justify-self: start; } }
+
+/* Admin: stats */
+.period-tabs { margin: 0; }
+.stats-two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.stat-rows { display: grid; gap: 10px; }
+.stat-row { display: grid; grid-template-columns: minmax(0, 1.3fr) 1fr auto; gap: 12px; align-items: center; font-size: 14px; }
+.stat-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stat-bar { height: 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.06); overflow: hidden; }
+.stat-bar span { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #e0137a, #ff8cc6); }
+.stat-row strong { font-variant-numeric: tabular-nums; min-width: 3ch; text-align: right; }
+.day-chart { display: flex; align-items: flex-end; gap: 3px; height: 120px; padding: 4px 0; border-bottom: 1px solid var(--line); }
+.day-col { flex: 1; height: 100%; display: flex; align-items: flex-end; }
+.day-bar { display: block; width: 100%; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, #ff8cc6, #e0137a); }
+.day-col:hover .day-bar { background: #fff; }
+.day-axis { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+@media (max-width: 860px) { .stats-two { grid-template-columns: 1fr; } }

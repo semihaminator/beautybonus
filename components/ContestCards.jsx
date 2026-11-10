@@ -9,7 +9,7 @@ export default function ContestCards({ contests, locale, s, title, compact = fal
       {title && <h2 className="contests-title"><span className="live-dot" aria-hidden="true" />{title}</h2>}
       <div className="contest-grid">
         {contests.map((c) => (
-          <a key={c.slug} href={`/c/${c.slug}`} target="_blank" rel="noopener" className="contest-card">
+          <a key={c.slug} href={`/c/${c.slug}`} target="_blank" rel="noopener" className="contest-card" data-track={`contest:${c.slug}`}>
             <span className="contest-ico"><GIcon name={c.audience === "agencies" ? "building" : "trophy"} /></span>
             <span className="contest-body">
               <span className="contest-tag">

@@ -31,8 +31,8 @@ export default async function BeautyBonusPage() {
           <p className="lead">{t.hero.lead}</p>
           <div className="bb-prize"><strong>{t.hero.prize}</strong><span>{t.hero.prizeSub}</span></div>
           <div className="hero-actions">
-            <a href="#apply" className="btn">{t.hero.apply}</a>
-            <a href="/beauty-bonus/results" className="btn ghost">{t.hero.check}</a>
+            <a href="#apply" className="btn" data-track="bb-apply">{t.hero.apply}</a>
+            <a href="/beauty-bonus/results" className="btn ghost" data-track="bb-check-status">{t.hero.check}</a>
           </div>
         </div>
       </section>

@@ -91,7 +91,7 @@ export default async function AgencyGuidePage() {
               <p>{s2.send}</p>
               <div className="g-actions">
                 <LinkButton href="#apply" icon="form">{s2.sendForm}</LinkButton>
-                <LinkButton href={L.agencyManager} ghost icon="support">{s2.sendWhatsapp}</LinkButton>
+                <LinkButton href={L.agencyManager} ghost icon="support" track="agency-manager">{s2.sendWhatsapp}</LinkButton>
               </div>
             </div>
           </div>
@@ -107,7 +107,7 @@ export default async function AgencyGuidePage() {
           <div style={{ marginTop: 22 }}>
             <Steps compact items={s3.refSteps.map((title) => ({ title }))} />
           </div>
-          <div className="g-actions"><LinkButton href={L.agencyPanel} icon="panel">{s3.panelCta}</LinkButton></div>
+          <div className="g-actions"><LinkButton href={L.agencyPanel} icon="panel" track="agency-panel">{s3.panelCta}</LinkButton></div>
 
           <h3 className="g-sub">{s3.alreadyTitle}</h3>
           <div className="g-grid g2">{s3.already.map(([ic, ti, p]) => <Feat key={ti} icon={ic} title={ti} text={p} />)}</div>
@@ -115,7 +115,7 @@ export default async function AgencyGuidePage() {
           <h3 className="g-sub">{s3.androidTitle}</h3>
           <div className="g-grid g2 top">
             <Feat icon="android" title="Cafe" text={s3.android}>
-              {L.cafeApp && <div className="g-actions"><LinkButton href={L.cafeApp} ghost icon="android">{s3.androidCta}</LinkButton></div>}
+              {L.cafeApp && <div className="g-actions"><LinkButton href={L.cafeApp} ghost icon="android" track="cafe-app">{s3.androidCta}</LinkButton></div>}
             </Feat>
             <Callout icon="alert" tone="warn" title={s3.notesTitle}>
               <Bullets items={s3.notes} />
@@ -126,7 +126,7 @@ export default async function AgencyGuidePage() {
         <section className="g-sec" id="panel">
           <SecHead n={4} kicker={s4.kicker} title={s4.title} lead={s4.lead} />
           <div className="g-actions" style={{ marginTop: -8, marginBottom: 8 }}>
-            <LinkButton href={L.agencyPanel} ghost icon="panel">{L.agencyPanel.replace(/^https?:\/\//, "").replace(/\/$/, "")}</LinkButton>
+            <LinkButton href={L.agencyPanel} ghost icon="panel" track="agency-panel">{L.agencyPanel.replace(/^https?:\/\//, "").replace(/\/$/, "")}</LinkButton>
           </div>
           <h3 className="g-sub">{s4.sectionsTitle}</h3>
           <div className="g-grid g3">{s4.sections.map(([ic, ti, p]) => <Feat key={ti} icon={ic} title={ti} text={p} />)}</div>

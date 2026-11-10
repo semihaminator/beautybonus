@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CameraIcon, PlaneIcon, SupportIcon } from "./Icons";
+import { CameraIcon, NoteIcon, PlaneIcon, SupportIcon } from "./Icons";
 import LangSwitcher from "./LangSwitcher";
 import MainNav from "./MainNav";
 
@@ -18,7 +18,7 @@ export function Header({ locale, s, settings, contests = [] }) {
       {contests.length > 0 && (
         <div className="hot-links">
           {contests.map((c) => (
-            <a key={c.slug} href={`/c/${c.slug}`} target="_blank" rel="noopener" className="hot-link">
+            <a key={c.slug} href={`/c/${c.slug}`} target="_blank" rel="noopener" className="hot-link" data-track={`hot:${c.slug}`}>
               <span className="hot-tag">HOT!</span>
               <span className="hot-long">{s.hot[c.audience] || s.hot.all}</span>
               <span className="hot-short">{s.hotShort[c.audience] || s.hotShort.all}</span>
@@ -47,18 +47,23 @@ export function Socials({ settings, compact = false, withSupport = false, suppor
   return (
     <div className={compact ? "socials compact" : "socials"}>
       {withSupport && l.support && (
-        <a href={l.support} target="_blank" rel="noopener noreferrer" className="social">
+        <a href={l.support} target="_blank" rel="noopener noreferrer" className="social" data-track="support">
           <SupportIcon /> <span>{supportLabel}</span>
         </a>
       )}
       {l.telegram && (
-        <a href={l.telegram} target="_blank" rel="noopener noreferrer" className="social">
+        <a href={l.telegram} target="_blank" rel="noopener noreferrer" className="social" data-track="telegram">
           <PlaneIcon /> <span>Telegram</span>
         </a>
       )}
       {l.instagram && (
-        <a href={l.instagram} target="_blank" rel="noopener noreferrer" className="social">
+        <a href={l.instagram} target="_blank" rel="noopener noreferrer" className="social" data-track="instagram">
           <CameraIcon /> <span>Instagram</span>
+        </a>
+      )}
+      {l.tiktok && (
+        <a href={l.tiktok} target="_blank" rel="noopener noreferrer" className="social" data-track="tiktok">
+          <NoteIcon /> <span>TikTok</span>
         </a>
       )}
     </div>
