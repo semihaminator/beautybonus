@@ -13,7 +13,15 @@ export async function generateMetadata() {
     metadataBase: new URL(process.env.SITE_URL || "https://salsa.team"),
     title: s.metaTitle,
     description: s.metaDescription,
-    openGraph: { siteName: "Salsa", url: "/" },
+    // Link preview (WhatsApp, Telegram, Instagram): same title for every language.
+    openGraph: {
+      siteName: "Salsa",
+      url: "/",
+      type: "website",
+      title: "Salsa — стримь и зарабатывай!",
+      description: "Гайды для стримеров и агентств, Beauty Bonus и конкурсы Salsa.",
+    },
+    twitter: { card: "summary_large_image", title: "Salsa — стримь и зарабатывай!" },
   };
 }
 
