@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { monthLabel } from "@/lib/months";
+import { monthLabel, upcomingMonths } from "@/lib/months";
 
 const LABELS = { pending: "Pending", accepted: "Accepted", conditional: "Conditional", rejected: "Rejected" };
 const ORDER = ["pending", "accepted", "conditional", "rejected"];
@@ -15,6 +15,7 @@ async function post(url, body) {
 }
 
 export default function AdminDashboard({ apps, statuses, error }) {
+  // statuses: { "2026-11": { appId: status }, "2026-12": {...} } — results are per round (start month)
   const router = useRouter();
   const [tab, setTab] = useState("applications");
   const [q, setQ] = useState("");
@@ -26,19 +27,28 @@ export default function AdminDashboard({ apps, statuses, error }) {
   const [bulkStatus, setBulkStatus] = useState("accepted");
   const [lightbox, setLightbox] = useState("");
 
+  // Rounds the result lists can be edited for: any round with results, any month someone applied for, and the next 3 starts.
+  const roundOptions = useMemo(() => {
+    const set = new Set([...Object.keys(statuses), ...apps.map((a) => a.startMonth), ...upcomingMonths(new Date(), 3).map((m) => m.value)]);
+    return [...set].filter(Boolean).sort().reverse();
+  }, [statuses, apps]);
+  const [listRound, setListRound] = useState(() => Object.keys(statuses).sort().reverse()[0] || roundOptions[0] || "");
+
   const flash = (t) => {
     setToast(t);
     setTimeout(() => setToast(""), 2500);
   };
 
-  const statusOf = (appId) => statuses[appId] || "pending";
+  const statusOf = (a) => statuses[a.startMonth]?.[a.appId] || "pending";
+  // This ID's results in other rounds, e.g. [["2026-11", "accepted"]]
+  const historyOf = (a) => Object.entries(statuses).filter(([m, h]) => m !== a.startMonth && h[a.appId]).map(([m, h]) => [m, h[a.appId]]).sort();
 
   const months = useMemo(() => [...new Set(apps.map((a) => a.startMonth))].sort(), [apps]);
 
-  // How many applications each in-app ID has (rules: an ID may only take part once).
+  // How many applications each in-app ID has for the same start month (duplicates).
   const idCounts = useMemo(() => {
     const c = {};
-    apps.forEach((a) => (c[a.appId] = (c[a.appId] || 0) + 1));
+    apps.forEach((a) => (c[`${a.startMonth}|${a.appId}`] = (c[`${a.startMonth}|${a.appId}`] || 0) + 1));
     return c;
   }, [apps]);
 
@@ -47,29 +57,30 @@ export default function AdminDashboard({ apps, statuses, error }) {
     return apps.filter(
       (a) =>
         (!month || a.startMonth === month) &&
-        (!statusFilter || statusOf(a.appId) === statusFilter) &&
+        (!statusFilter || statusOf(a) === statusFilter) &&
         (!s || [a.appId, a.email, a.phone].some((v) => String(v).toLowerCase().includes(s)))
     );
   }, [apps, q, month, statusFilter, statuses]);
 
   const counts = useMemo(() => {
-    const c = { total: apps.length, pending: 0, accepted: 0, conditional: 0, rejected: 0 };
-    apps.forEach((a) => c[statusOf(a.appId)]++);
+    const list = month ? apps.filter((a) => a.startMonth === month) : apps;
+    const c = { total: list.length, pending: 0, accepted: 0, conditional: 0, rejected: 0 };
+    list.forEach((a) => c[statusOf(a)]++);
     return c;
-  }, [apps, statuses]);
+  }, [apps, statuses, month]);
 
   const lists = useMemo(() => {
     const g = { accepted: [], conditional: [], rejected: [] };
-    Object.entries(statuses).forEach(([id, s]) => g[s]?.push(id));
+    Object.entries(statuses[listRound] || {}).forEach(([id, s]) => g[s]?.push(id));
     Object.values(g).forEach((l) => l.sort((a, b) => a.localeCompare(b, undefined, { numeric: true })));
     return g;
-  }, [statuses]);
+  }, [statuses, listRound]);
 
-  async function changeStatus(appId, status) {
-    setBusyId(appId);
+  async function changeStatus(appId, status, round) {
+    setBusyId(`${round}|${appId}`);
     try {
-      await post("/api/admin/status", { ids: [appId], status });
-      flash(`${appId} → ${LABELS[status]}`);
+      await post("/api/admin/status", { ids: [appId], status, round });
+      flash(`${appId} · ${monthLabel(round)} → ${LABELS[status]}`);
       router.refresh();
     } catch (e) {
       flash(e.message);
@@ -90,8 +101,8 @@ export default function AdminDashboard({ apps, statuses, error }) {
   async function addBulk(e) {
     e.preventDefault();
     try {
-      const { count } = await post("/api/admin/status", { ids: bulk, status: bulkStatus });
-      flash(`${count} ID${count === 1 ? "" : "s"} saved as ${LABELS[bulkStatus]}`);
+      const { count } = await post("/api/admin/status", { ids: bulk, status: bulkStatus, round: listRound });
+      flash(`${count} ID${count === 1 ? "" : "s"} saved as ${LABELS[bulkStatus]} for ${monthLabel(listRound)}`);
       setBulk("");
       router.refresh();
     } catch (err) {
@@ -151,7 +162,8 @@ export default function AdminDashboard({ apps, statuses, error }) {
                 </thead>
                 <tbody>
                   {filtered.map((a) => {
-                    const s = statusOf(a.appId);
+                    const s = statusOf(a);
+                    const past = historyOf(a);
                     return (
                       <tr key={a.id}>
                         <td data-label="Photo">
@@ -161,8 +173,13 @@ export default function AdminDashboard({ apps, statuses, error }) {
                         </td>
                         <td data-label="In-app ID" className="mono">
                           {a.appId}
-                          {idCounts[a.appId] > 1 && (
-                            <span className="dup" title="This in-app ID has applied more than once">×{idCounts[a.appId]}</span>
+                          {idCounts[`${a.startMonth}|${a.appId}`] > 1 && (
+                            <span className="dup" title="This in-app ID applied more than once for the same start month">×{idCounts[`${a.startMonth}|${a.appId}`]}</span>
+                          )}
+                          {past.length > 0 && (
+                            <span className="past">
+                              {past.map(([m, st]) => <span key={m} className={`past-tag ${st}`}>{monthLabel(m).replace(/^13 /, "")}: {LABELS[st]}</span>)}
+                            </span>
                           )}
                         </td>
                         <td data-label="Start">{monthLabel(a.startMonth)}</td>
@@ -171,7 +188,7 @@ export default function AdminDashboard({ apps, statuses, error }) {
                         <td data-label="Lang"><span className="lang-tag">{{ en: "EN", ru: "RU", uk: "UA" }[a.lang] || "EN"}</span></td>
                         <td data-label="Submitted">{new Date(a.createdAt).toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" })}</td>
                         <td data-label="Status">
-                          <select className={`status-select ${s}`} value={s} disabled={busyId === a.appId} onChange={(e) => changeStatus(a.appId, e.target.value)}>
+                          <select className={`status-select ${s}`} value={s} disabled={busyId === `${a.startMonth}|${a.appId}`} onChange={(e) => changeStatus(a.appId, e.target.value, a.startMonth)}>
                             {ORDER.map((o) => <option key={o} value={o}>{LABELS[o]}</option>)}
                           </select>
                         </td>
@@ -185,12 +202,21 @@ export default function AdminDashboard({ apps, statuses, error }) {
               </table>
             </div>
           )}
-          <p className="hint">Changing a status here also updates the public Results page for that in-app ID.</p>
+          <p className="hint">A status belongs to the application’s start month only — setting December doesn’t change November. Small tags under an ID show its results in other months.</p>
         </>
       ) : (
         <>
+          <div className="round-bar">
+            <label htmlFor="list-round">Results for the bonus starting</label>
+            <select id="list-round" value={listRound} onChange={(e) => setListRound(e.target.value)}>
+              {roundOptions.map((m) => (
+                <option key={m} value={m}>{monthLabel(m)}{statuses[m] ? ` · ${Object.keys(statuses[m]).length} IDs` : ""}</option>
+              ))}
+            </select>
+            <a className="link-danger" href={`/beauty-bonus/results?round=${listRound}`} target="_blank" rel="noopener">See public page ↗</a>
+          </div>
           <form className="bulk" onSubmit={addBulk}>
-            <label htmlFor="bulk">Add in-app IDs to a list</label>
+            <label htmlFor="bulk">Add in-app IDs to the {monthLabel(listRound)} lists</label>
             <textarea id="bulk" rows={4} placeholder="Paste one or more IDs — separated by commas, spaces or new lines" value={bulk} onChange={(e) => setBulk(e.target.value)} />
             <div className="bulk-row">
               <select value={bulkStatus} onChange={(e) => setBulkStatus(e.target.value)}>
@@ -200,7 +226,7 @@ export default function AdminDashboard({ apps, statuses, error }) {
               </select>
               <button className="btn small" disabled={!bulk.trim()}>Save IDs</button>
             </div>
-            <p className="hint">An ID can only be in one list — saving it again moves it.</p>
+            <p className="hint">Within one month an ID can only be in one list — saving it again moves it. Other months are not affected.</p>
           </form>
 
           <div className="columns">
@@ -215,7 +241,7 @@ export default function AdminDashboard({ apps, statuses, error }) {
                     {lists[k].map((id) => (
                       <li key={id} className="chip removable">
                         {id}
-                        <button aria-label={`Remove ${id}`} onClick={() => changeStatus(id, "pending")}>×</button>
+                        <button aria-label={`Remove ${id}`} onClick={() => changeStatus(id, "pending", listRound)}>×</button>
                       </li>
                     ))}
                   </ul>

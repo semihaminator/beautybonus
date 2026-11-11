@@ -9,7 +9,7 @@ import StatsAdmin from "@/components/StatsAdmin";
 import { dayKey, getDaily, getStats } from "@/lib/stats";
 import { listAgencyApps } from "@/lib/agency";
 import { isAdmin } from "@/lib/auth";
-import { getStatuses, listApplications } from "@/lib/db";
+import { getAllStatuses, listApplications } from "@/lib/db";
 import { getSettings, LINK_FIELDS, SECTION_FIELDS } from "@/lib/settings";
 
 export const dynamic = "force-dynamic";
@@ -23,7 +23,7 @@ export default async function AdminPage() {
   let agencyApps = [];
   let error = "";
   try {
-    [apps, statuses, agencyApps] = await Promise.all([listApplications(), getStatuses(), listAgencyApps()]);
+    [apps, statuses, agencyApps] = await Promise.all([listApplications(), getAllStatuses(), listAgencyApps()]);
   } catch (err) {
     error = err.message;
   }
@@ -53,7 +53,7 @@ export default async function AdminPage() {
   const clicks = await getClicks(contests.map((c) => c.slug));
   const siteUrl = (process.env.SITE_URL || "https://salsa.team").replace(/\/$/, "");
   const newAgency = agencyApps.filter((a) => a.status === "new").length;
-  const pendingBB = apps.filter((a) => !statuses[a.appId]).length;
+  const pendingBB = apps.filter((a) => !statuses[a.startMonth]?.[a.appId]).length;
 
   return (
     <AdminShell badges={{ beauty: pendingBB, agency: newAgency }}>

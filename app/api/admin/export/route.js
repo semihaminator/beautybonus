@@ -1,5 +1,5 @@
 import { requireAdmin } from "@/lib/auth";
-import { getStatuses, listApplications, STATUS_LABELS } from "@/lib/db";
+import { getAllStatuses, listApplications, STATUS_LABELS } from "@/lib/db";
 import { monthLabel } from "@/lib/months";
 
 const cell = (v) => {
@@ -12,7 +12,7 @@ const cell = (v) => {
 export async function GET(request) {
   const denied = await requireAdmin();
   if (denied) return denied;
-  const [apps, statuses] = await Promise.all([listApplications(), getStatuses()]);
+  const [apps, statuses] = await Promise.all([listApplications(), getAllStatuses()]);
   const rows = [["Submitted", "In-app ID", "Start", "Email", "Phone", "Language", "Status", "Photo"]];
   for (const a of apps) {
     rows.push([
@@ -22,7 +22,7 @@ export async function GET(request) {
       a.email,
       a.phone,
       ({ en: "EN", ru: "RU", uk: "UA" })[a.lang] || "EN",
-      STATUS_LABELS[statuses[a.appId] || "pending"],
+      STATUS_LABELS[statuses[a.startMonth]?.[a.appId] || "pending"],
       `${new URL(request.url).origin}/api/admin/photo/${a.id}`,
     ]);
   }
