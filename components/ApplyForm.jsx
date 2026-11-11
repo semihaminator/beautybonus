@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@vercel/analytics";
 import { useEffect, useRef, useState } from "react";
 import { uploadPresigned } from "@vercel/blob/client";
 import { UploadIcon } from "./Icons";
@@ -97,6 +98,7 @@ export default function ApplyForm({ months, t, locale }) {
         return;
       }
       setReference(data.reference || "");
+      try { track("Beauty Bonus application sent", { language: locale }); } catch {}
       setState("done");
     } catch (err) {
       console.error(err);

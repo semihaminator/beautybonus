@@ -2,6 +2,34 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { track } from "@vercel/analytics";
+
+// Readable names for Vercel Analytics → Events.
+const NAMES = {
+  "start-streaming": "Start streaming",
+  support: "Support",
+  "agency-manager": "Message agency manager",
+  "agency-panel": "Open agency panel",
+  "cafe-app": "Cafe app",
+  telegram: "Telegram",
+  instagram: "Instagram",
+  tiktok: "TikTok",
+  "card:guide": "Home card: Streamer guide",
+  "card:agency": "Home card: Agency guide",
+  "card:beautyBonus": "Home card: Beauty Bonus",
+  "bb-apply": "Beauty Bonus: Apply now",
+  "bb-check-status": "Beauty Bonus: Check status",
+};
+const eventName = (k) =>
+  NAMES[k] ||
+  (k.startsWith("hot:") ? `HOT! button: ${k.slice(4)}` : k.startsWith("contest:") ? `Contest card: ${k.slice(8)}` : k.startsWith("link:") ? `Link: ${k.slice(5)}` : k);
+
+function vercelEvent(name, page) {
+  try {
+    track(name, { page });
+  } catch {}
+}
+export { vercelEvent };
 
 function send(body) {
   try {
@@ -37,7 +65,10 @@ export default function Tracker() {
           } catch {}
         }
       }
-      if (k) send({ t: "click", k, p: location.pathname });
+      if (k) {
+        send({ t: "click", k, p: location.pathname });
+        vercelEvent(eventName(k), location.pathname);
+      }
     };
     document.addEventListener("click", onClick, true);
     return () => document.removeEventListener("click", onClick, true);

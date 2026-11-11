@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@vercel/analytics";
 import { useState } from "react";
 import { fmt } from "@/lib/i18n";
 
@@ -71,6 +72,7 @@ export default function AgencyForm({ t, locale, whatsapp }) {
         return;
       }
       setRef(data.reference || "");
+      try { track("Agency application sent", { language: locale }); } catch {}
       setState("done");
     } catch {
       setMessage(t.errors.generic);
