@@ -32,7 +32,7 @@ export default async function AdventPage() {
         </div>
 
         <div className="adv-art">
-          <img src="/img/advent/girl-door.webp" alt="" className="adv-girl" width="760" height="1337" />
+          <img src="/img/advent/girl-door.webp" alt="" className="adv-girl" width="760" height="1339" />
           <img src="/img/advent/hourglass.webp" alt="" className="adv-deco adv-hourglass" aria-hidden="true" />
           <img src="/img/advent/heart-ornament.webp" alt="" className="adv-deco adv-heart" aria-hidden="true" />
         </div>
