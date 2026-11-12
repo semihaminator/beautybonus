@@ -10,6 +10,7 @@ const PAGE_NAMES = {
   "/beauty-bonus": "Beauty Bonus — apply",
   "/beauty-bonus/rules": "Beauty Bonus — rules",
   "/beauty-bonus/results": "Beauty Bonus — results",
+  "/advent": "Advent (coming soon)",
 };
 const CLICK_NAMES = {
   "start-streaming": "“Start streaming” buttons",
